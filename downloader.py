@@ -1,6 +1,6 @@
 from yt_dlp import YoutubeDL
 import os
-from utils import extract_video_id, is_supported_url
+from utils import extract_video_id, is_supported_url, get_ffmpeg_location
 
 # --- Quality format mapping (shared across functions) ---
 # Prefer mp4 video + m4a audio; fall back to any codec and remux to mp4
@@ -26,6 +26,12 @@ def _get_video_opts(outtmpl, progress_hook, quality="720p", is_playlist=False):
     }
     if is_playlist:
         opts.update({'noplaylist': False, 'continuedl': True})
+
+    # Add FFmpeg location if running as bundled executable
+    ffmpeg_loc = get_ffmpeg_location()
+    if ffmpeg_loc:
+        opts['ffmpeg_location'] = ffmpeg_loc
+
     return opts
 
 def _get_audio_opts(outtmpl, progress_hook, is_playlist=False):
@@ -44,6 +50,12 @@ def _get_audio_opts(outtmpl, progress_hook, is_playlist=False):
     }
     if is_playlist:
         opts.update({'noplaylist': False, 'continuedl': True})
+
+    # Add FFmpeg location if running as bundled executable
+    ffmpeg_loc = get_ffmpeg_location()
+    if ffmpeg_loc:
+        opts['ffmpeg_location'] = ffmpeg_loc
+
     return opts
 
 def _download_with_playlist_info(ydl, url, progress_hook):

@@ -35,4 +35,10 @@ ENV/
 
 # Project specific
 videos/
-audio/ 
+audio/
+
+# FFmpeg build artifacts
+bin/
+ffmpeg-*.zip
+ffmpeg-*-essentials_build/
+nul 

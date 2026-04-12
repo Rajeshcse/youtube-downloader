@@ -4,9 +4,12 @@
 a = Analysis(
     ['main.py'],
     pathex=[],
-    binaries=[],
+    binaries=[
+        ('bin/ffmpeg.exe', 'ffmpeg'),
+        ('bin/ffprobe.exe', 'ffmpeg'),
+    ],
     datas=[],
-    hiddenimports=[],
+    hiddenimports=['yt_dlp', 'yt_dlp.extractor', 'yt_dlp.downloader'],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
@@ -29,7 +32,7 @@ exe = EXE(
     upx=True,
     upx_exclude=[],
     runtime_tmpdir=None,
-    console=False,
+    console=True,
     disable_windowed_traceback=False,
     argv_emulation=False,
     target_arch=None,

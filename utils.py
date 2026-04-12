@@ -2,6 +2,7 @@ import re
 import os
 import platform
 import subprocess
+import sys
 from urllib.parse import urlparse
 
 def is_supported_url(url):
@@ -58,4 +59,19 @@ def open_folder(path):
     elif platform.system() == "Darwin":
         subprocess.run(["open", path])
     else:
-        subprocess.run(["xdg-open", path]) 
+        subprocess.run(["xdg-open", path])
+
+def get_ffmpeg_location():
+    """
+    Get the FFmpeg location for yt-dlp.
+    Returns the path to the bundled FFmpeg directory when running as PyInstaller executable,
+    or None to use system FFmpeg when running as a Python script.
+    """
+    if getattr(sys, 'frozen', False):
+        # Running as PyInstaller bundle
+        base_path = sys._MEIPASS
+        ffmpeg_dir = os.path.join(base_path, 'ffmpeg')
+        if os.path.exists(ffmpeg_dir):
+            return ffmpeg_dir
+    # Running as normal Python script or FFmpeg not found in bundle
+    return None 
